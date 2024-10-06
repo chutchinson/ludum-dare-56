@@ -1,0 +1,63 @@
+[gd_scene load_steps=10 format=3 uid="uid://dql46allspdnw"]
+
+[ext_resource type="PackedScene" uid="uid://b6x1nxmy6e60l" path="res://scenes/ui/hud.tscn" id="1_1ovk1"]
+[ext_resource type="Script" path="res://scripts/battle.gd" id="1_a348s"]
+[ext_resource type="Script" path="res://scripts/camera.gd" id="1_wc1ao"]
+[ext_resource type="PackedScene" uid="uid://hraj4k25lv3y" path="res://scenes/entity/fighter/fighter.tscn" id="2_rbakk"]
+[ext_resource type="Script" path="res://scripts/input/player.gd" id="4_arwh4"]
+[ext_resource type="PackedScene" uid="uid://dkfnn14ov232v" path="res://scenes/entity/fighter/beetle/brain.tscn" id="6_ao2bo"]
+
+[sub_resource type="Environment" id="Environment_ab1pe"]
+background_mode = 1
+background_color = Color(0.446891, 0.789309, 0.961592, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.33904, 0.366572, 0.431423, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_maskx"]
+size = Vector3(10, 5, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2ioak"]
+size = Vector3(10, 1, 2)
+
+[node name="Debug" type="Node3D" groups=["arena"]]
+script = ExtResource("1_a348s")
+
+[node name="Hud" parent="." instance=ExtResource("1_1ovk1")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ab1pe")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 2.69716, 0)
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -3.28158, 1.49419, 0.0451982)
+fov = 90.0
+far = 10.0
+script = ExtResource("1_wc1ao")
+target = NodePath("../Fighter")
+
+[node name="Fighter" parent="." instance=ExtResource("2_rbakk")]
+
+[node name="PlayerInput" type="Node" parent="Fighter"]
+script = ExtResource("4_arwh4")
+
+[node name="Fighter2" parent="." instance=ExtResource("2_rbakk")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 3.05765)
+jump_height = 0.5
+
+[node name="Brain" parent="Fighter2" instance=ExtResource("6_ao2bo")]
+
+[node name="Stage" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Stage"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Stage/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5, 0)
+mesh = SubResource("BoxMesh_maskx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Stage/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_2ioak")

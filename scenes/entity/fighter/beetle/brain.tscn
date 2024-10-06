@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://dkfnn14ov232v"]
+
+[ext_resource type="Script" path="res://scripts/ai/brain.gd" id="1_26m5l"]
+[ext_resource type="Script" path="res://scripts/ai/idle.gd" id="2_uhoqk"]
+[ext_resource type="Script" path="res://scripts/ai/attack.gd" id="3_jhydg"]
+[ext_resource type="Script" path="res://scripts/ai/dead.gd" id="4_8qeef"]
+
+[node name="BeetleBrain" type="Node"]
+script = ExtResource("1_26m5l")
+default_state = "Idle"
+
+[node name="Idle" type="Node" parent="."]
+script = ExtResource("2_uhoqk")
+
+[node name="Attack" type="Node" parent="."]
+script = ExtResource("3_jhydg")
+
+[node name="Dead" type="Node" parent="."]
+script = ExtResource("4_8qeef")

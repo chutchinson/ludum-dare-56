@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://b6x1nxmy6e60l"]
+
+[ext_resource type="Script" path="res://scripts/ui/hud.gd" id="1_ymetq"]
+[ext_resource type="PackedScene" uid="uid://baemn2ojf0sv0" path="res://scenes/ui/status.tscn" id="2_s5vji"]
+
+[node name="Hud" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ymetq")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -436.0
+offset_right = 436.0
+offset_bottom = 75.0
+grow_horizontal = 2
+theme_override_constants/separation = 32
+
+[node name="Status1" parent="HBoxContainer" instance=ExtResource("2_s5vji")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Status2" parent="HBoxContainer" instance=ExtResource("2_s5vji")]
+unique_name_in_owner = true
+layout_mode = 2

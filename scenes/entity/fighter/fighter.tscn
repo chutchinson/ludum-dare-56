@@ -1,0 +1,229 @@
+[gd_scene load_steps=15 format=3 uid="uid://hraj4k25lv3y"]
+
+[ext_resource type="Script" path="res://scenes/entity/fighter/fighter.gd" id="1_8fp2u"]
+[ext_resource type="ArrayMesh" uid="uid://do60jtwvygvxv" path="res://scenes/entity/fighter/beetle/mesh_beetle.res" id="2_8ndbb"]
+[ext_resource type="PackedScene" uid="uid://ct0tkr7eua5qm" path="res://assets/entity/beetle/beetle.tscn" id="2_o0cab"]
+[ext_resource type="Script" path="res://scripts/fsm.gd" id="8_yti4j"]
+[ext_resource type="Script" path="res://scenes/entity/fighter/idle.gd" id="9_523xr"]
+[ext_resource type="Script" path="res://scenes/entity/fighter/move.gd" id="9_ed4gf"]
+[ext_resource type="Script" path="res://scenes/entity/fighter/jump.gd" id="11_2j5dw"]
+[ext_resource type="Script" path="res://scenes/entity/fighter/attack.gd" id="11_idx8c"]
+[ext_resource type="Script" path="res://scenes/entity/fighter/hit.gd" id="13_wuc7r"]
+[ext_resource type="Script" path="res://scenes/entity/fighter/guard.gd" id="14_nvvh4"]
+[ext_resource type="Script" path="res://scenes/entity/fighter/dead.gd" id="16_vt008"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nbkyc"]
+radius = 0.175
+height = 0.8
+
+[sub_resource type="Skin" id="Skin_biugh"]
+resource_name = "Skin"
+bind_count = 14
+bind/0/name = &"root"
+bind/0/bone = -1
+bind/0/pose = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+bind/1/name = &"hips"
+bind/1/bone = -1
+bind/1/pose = Transform3D(-4.01339e-07, 0, -1, 0, 1, 0, 1, 0, -4.01339e-07, 0, -0.300416, 0)
+bind/2/name = &"chest"
+bind/2/bone = -1
+bind/2/pose = Transform3D(-4.01339e-07, 0, -1, 0, 1, 0, 1, 0, -4.01339e-07, 0, -0.507987, 0)
+bind/3/name = &"head"
+bind/3/bone = -1
+bind/3/pose = Transform3D(-4.01339e-07, 0, -1, 0, 1, 0, 1, 0, -4.01339e-07, 0, -0.673862, 0)
+bind/4/name = &"arm.l"
+bind/4/bone = -1
+bind/4/pose = Transform3D(2.5429e-09, -2.27571e-07, -1, -0.979963, -0.19918, 4.28355e-08, -0.19918, 0.979963, -2.23517e-07, 1.53351e-07, 0.13422, -0.66036)
+bind/5/name = &"arm_upper.l"
+bind/5/bone = -1
+bind/5/pose = Transform3D(3.13916e-07, -4.67772e-15, -1, -1.49012e-07, -1, 3.84879e-14, -1, 1.49012e-08, -3.13916e-07, 9.40686e-08, 0.620399, -0.263035)
+bind/6/name = &"arm_lower.l"
+bind/6/bone = -1
+bind/6/pose = Transform3D(3.13916e-07, 0, -1, -1.3411e-07, -1, 3.84879e-14, -1, 0, -3.13916e-07, 9.40686e-08, 0.474982, -0.263035)
+bind/7/name = &"arm.r"
+bind/7/bone = -1
+bind/7/pose = Transform3D(-7.30494e-09, 1.7912e-07, 1, 0.979963, -0.19918, 4.28355e-08, 0.19918, 0.979963, -1.74076e-07, -1.20702e-07, 0.134219, -0.66036)
+bind/8/name = &"arm_upper.r"
+bind/8/bone = -1
+bind/8/pose = Transform3D(3.13916e-07, 0, 1, -2.98023e-08, -1, -6.88043e-14, 1, 0, -3.13916e-07, -9.40686e-08, 0.620399, -0.263035)
+bind/9/name = &"arm_lower.r"
+bind/9/bone = -1
+bind/9/pose = Transform3D(3.13916e-07, 0, 1, -2.98023e-08, -1, -6.88043e-14, 1, 0, -3.13916e-07, -9.40686e-08, 0.474982, -0.263035)
+bind/10/name = &"hip.l"
+bind/10/bone = -1
+bind/10/pose = Transform3D(-6.21449e-08, 3.42337e-08, -1, -0.880471, -0.4741, 3.84866e-08, -0.4741, 0.880471, 5.96046e-08, -1.02843e-08, 0.142427, -0.264507)
+bind/11/name = &"leg.l"
+bind/11/bone = -1
+bind/11/pose = Transform3D(-4.37114e-08, -3.55271e-15, -1, -2.98023e-07, -1, 2.36852e-14, -1, 1.55294e-22, 4.37114e-08, -5.30888e-16, 0.225568, -0.139002)
+bind/12/name = &"hip.r"
+bind/12/bone = -1
+bind/12/pose = Transform3D(-1.35714e-08, 5.59742e-08, 1, 0.880471, -0.474099, 3.84866e-08, 0.4741, 0.880471, -4.28494e-08, -1.68155e-08, 0.142427, -0.264507)
+bind/13/name = &"leg.r"
+bind/13/bone = -1
+bind/13/pose = Transform3D(-4.37114e-08, -2.25001e-15, 1, -3.27825e-07, -1, -9.24894e-14, 1, -2.98023e-08, 4.37114e-08, 2.28389e-15, 0.225568, -0.139002)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kpj4k"]
+size = Vector3(1, 1, 2)
+
+[node name="Fighter" type="CharacterBody3D" node_paths=PackedStringArray("mesh") groups=["fighter"]]
+collision_layer = 3
+axis_lock_linear_x = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+slide_on_ceiling = false
+script = ExtResource("1_8fp2u")
+mesh = NodePath("BeetleArmature/Skeleton3D/Beetle")
+jump_height = 1.0
+
+[node name="Sfx" type="AudioStreamPlayer" parent="."]
+volume_db = -5.0
+max_polyphony = 5
+bus = &"Sfx"
+
+[node name="AttackCooldown" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+shape = SubResource("CapsuleShape3D_nbkyc")
+
+[node name="Avatar" parent="." instance=ExtResource("2_o0cab")]
+
+[node name="BeetleArmature" type="Node3D" parent="."]
+visible = false
+
+[node name="Skeleton3D" type="Skeleton3D" parent="BeetleArmature"]
+bones/0/name = "root"
+bones/0/parent = -1
+bones/0/rest = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0, 0)
+bones/0/enabled = true
+bones/0/position = Vector3(0, 0, 0)
+bones/0/rotation = Quaternion(0, 0.707107, 0, 0.707107)
+bones/0/scale = Vector3(1, 1, 1)
+bones/1/name = "hips"
+bones/1/parent = 0
+bones/1/rest = Transform3D(1, 0, 3.57628e-07, 0, 1, 0, -3.57628e-07, 0, 1, 0, 0.300416, 0)
+bones/1/enabled = true
+bones/1/position = Vector3(0, 0.300416, 0)
+bones/1/rotation = Quaternion(0, 1.78814e-07, 0, 1)
+bones/1/scale = Vector3(1, 1, 1)
+bones/2/name = "chest"
+bones/2/parent = 1
+bones/2/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.207571, 0)
+bones/2/enabled = true
+bones/2/position = Vector3(0, 0.207571, 0)
+bones/2/rotation = Quaternion(0, 0, 0, 1)
+bones/2/scale = Vector3(1, 1, 1)
+bones/3/name = "head"
+bones/3/parent = 2
+bones/3/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.165875, 0)
+bones/3/enabled = true
+bones/3/position = Vector3(0, 0.165875, 0)
+bones/3/rotation = Quaternion(0, 0, 0, 1)
+bones/3/scale = Vector3(1, 1, 1)
+bones/4/name = "arm.l"
+bones/4/parent = 2
+bones/4/rest = Transform3D(1, 3.50462e-07, 3.03456e-07, -2.27571e-07, -0.19918, 0.979963, 4.03882e-07, -0.979963, -0.19918, 0, 0.165875, 0)
+bones/4/enabled = true
+bones/4/position = Vector3(0, 0.165875, 0)
+bones/4/rotation = Quaternion(-0.765104, -0.119186, 0.0973975, 0.625239)
+bones/4/scale = Vector3(1, 1, 1)
+bones/5/name = "arm_upper.l"
+bones/5/parent = 4
+bones/5/rest = Transform3D(1, 2.27571e-07, 3.11374e-07, -3.50462e-07, 0.199179, 0.979963, 1.60992e-07, -0.979963, 0.199179, 3.9968e-15, 0.268413, -2.55351e-15)
+bones/5/enabled = true
+bones/5/position = Vector3(3.9968e-15, 0.268413, -2.55351e-15)
+bones/5/rotation = Quaternion(-0.63278, 4.85522e-08, -1.86623e-07, 0.774332)
+bones/5/scale = Vector3(1, 1, 1)
+bones/6/name = "arm_lower.l"
+bones/6/parent = 5
+bones/6/rest = Transform3D(1, 4.67772e-15, 3.21609e-22, -4.67772e-15, 1, 1.49012e-08, -2.51906e-22, -1.49012e-08, 1, 3.99542e-15, 0.145418, 7.07778e-09)
+bones/6/enabled = true
+bones/6/position = Vector3(3.99542e-15, 0.145418, 7.07778e-09)
+bones/6/rotation = Quaternion(-0.176478, 0.021118, 0.0119601, 0.984005)
+bones/6/scale = Vector3(1, 1, 1)
+bones/7/name = "arm.r"
+bones/7/parent = 2
+bones/7/rest = Transform3D(-1, -4.36133e-07, 9.41372e-08, 1.7912e-07, -0.19918, 0.979963, -4.08644e-07, 0.979963, 0.19918, 0, 0.165875, 0)
+bones/7/enabled = true
+bones/7/position = Vector3(0, 0.165875, 0)
+bones/7/rotation = Quaternion(-0.0854064, 0.62699, 0.767246, -0.104511)
+bones/7/scale = Vector3(1, 1, 1)
+bones/8/name = "arm_upper.r"
+bones/8/parent = 7
+bones/8/rest = Transform3D(1, -1.7912e-07, -3.21221e-07, 3.50462e-07, 0.19918, 0.979963, -1.1155e-07, -0.979963, 0.19918, 5.55112e-15, 0.268413, -7.45058e-09)
+bones/8/enabled = true
+bones/8/position = Vector3(5.55112e-15, 0.268413, -7.45058e-09)
+bones/8/rotation = Quaternion(-0.63278, -6.76943e-08, 1.7098e-07, 0.774332)
+bones/8/scale = Vector3(1, 1, 1)
+bones/9/name = "arm_lower.r"
+bones/9/parent = 8
+bones/9/rest = Transform3D(1, 8.47033e-22, 0, -8.47033e-22, 1, 1.07997e-20, 0, -1.07997e-20, 1, 2.66454e-15, 0.145418, -3.60822e-15)
+bones/9/enabled = true
+bones/9/position = Vector3(2.66454e-15, 0.145418, -3.60822e-15)
+bones/9/rotation = Quaternion(1.02561e-07, -4.56504e-09, 0.317791, 0.948161)
+bones/9/scale = Vector3(1, 1, 1)
+bones/10/name = "hip.l"
+bones/10/parent = 0
+bones/10/rest = Transform3D(1, 0, -3.88811e-08, 3.42337e-08, -0.4741, 0.880471, -1.84335e-08, -0.880471, -0.4741, 0, 0.300416, 0)
+bones/10/enabled = true
+bones/10/position = Vector3(0, 0.300416, 0)
+bones/10/rotation = Quaternion(-0.858516, -9.96885e-09, 1.669e-08, 0.512787)
+bones/10/scale = Vector3(1, 1, 1)
+bones/11/name = "leg.l"
+bones/11/parent = 10
+bones/11/rest = Transform3D(1, -3.42337e-08, 1.84335e-08, 1.95399e-14, 0.4741, 0.880471, -3.88811e-08, -0.880471, 0.4741, 4.44089e-16, 0.157872, -1.49012e-08)
+bones/11/enabled = true
+bones/11/position = Vector3(4.44089e-16, 0.157872, -1.49012e-08)
+bones/11/rotation = Quaternion(-0.512787, 1.669e-08, 9.96885e-09, 0.858516)
+bones/11/scale = Vector3(1, 1, 1)
+bones/12/name = "hip.r"
+bones/12/parent = 0
+bones/12/rest = Transform3D(-1, -7.69732e-08, 2.21259e-08, 5.59742e-08, -0.4741, 0.880471, -5.72828e-08, 0.880471, 0.4741, 0, 0.300416, 0)
+bones/12/enabled = true
+bones/12/position = Vector3(0, 0.300416, 0)
+bones/12/rotation = Quaternion(-1.02377e-08, 0.512787, 0.858516, 3.87143e-08)
+bones/12/scale = Vector3(1, 1, 1)
+bones/13/name = "leg.r"
+bones/13/parent = 12
+bones/13/rest = Transform3D(1, -5.59743e-08, 3.014e-08, -1.24345e-14, 0.474099, 0.880471, -6.35731e-08, -0.880471, 0.4741, 1.11022e-15, 0.157872, 7.45058e-09)
+bones/13/enabled = true
+bones/13/position = Vector3(1.11022e-15, 0.157872, 7.45058e-09)
+bones/13/rotation = Quaternion(-0.512787, 2.72893e-08, 1.62997e-08, 0.858516)
+bones/13/scale = Vector3(1, 1, 1)
+
+[node name="Beetle" type="MeshInstance3D" parent="BeetleArmature/Skeleton3D"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+mesh = ExtResource("2_8ndbb")
+skin = SubResource("Skin_biugh")
+
+[node name="StateMachine" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("8_yti4j")
+default_state = "Idle"
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("9_523xr")
+
+[node name="Move" type="Node" parent="StateMachine"]
+script = ExtResource("9_ed4gf")
+
+[node name="Attack1" type="Node" parent="StateMachine" node_paths=PackedStringArray("cooldown")]
+script = ExtResource("11_idx8c")
+cooldown = NodePath("../../AttackCooldown")
+hitbox = SubResource("BoxShape3D_kpj4k")
+hitbox_offset = Vector3(0, 0.5, 0.2)
+
+[node name="Jump" type="Node" parent="StateMachine"]
+script = ExtResource("11_2j5dw")
+
+[node name="Hit" type="Node" parent="StateMachine"]
+script = ExtResource("13_wuc7r")
+
+[node name="Guard" type="Node" parent="StateMachine"]
+script = ExtResource("14_nvvh4")
+
+[node name="Dead" type="Node" parent="StateMachine"]
+script = ExtResource("16_vt008")
